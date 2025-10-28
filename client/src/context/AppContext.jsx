@@ -1,14 +1,13 @@
 import { createContext } from "react";
 
-export const AppContext = createContext()
+export const AppContext = createContext();
 
-export const AppContextProvider = () => {
+export const AppContextProvider = ({ children }) => {  // 👈 name matches import
+  const value = {}; // add shared state here later
 
-    const value = {
-
-    }
-
-    return (<AppContext.Provider value={value}>
-        {props.children}
-    </AppContext.Provider>)
-}
+  return (
+    <AppContext.Provider value={value}>
+      {children}
+    </AppContext.Provider>
+  );
+};
