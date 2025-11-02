@@ -1,4 +1,5 @@
-import { createContext, useState} from "react";
+import { createContext, useEffect, useState} from "react";
+import { jobsData } from "../assets/assets";
 
 export const AppContext = createContext();
 
@@ -11,9 +12,21 @@ const [searchFilter, setSearchFilter] = useState({
 
   const [isSearched, setIsSearched] = useState(false)
 
+  const [jobs, setJobs] = useState([]);
+
+  // Function to fetch university data
+  const fetchJobs = async () => {
+    setJobs(jobsData);
+  }
+
+  useEffect(() => {
+    fetchJobs();
+  },[])
+
   const value = {
     setSearchFilter, searchFilter,
     isSearched, setIsSearched,
+    jobs, setJobs
   }; 
 
   return (
