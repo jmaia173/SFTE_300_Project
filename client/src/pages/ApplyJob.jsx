@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import Loading from "../components/Loading";
 import Navbar from "../components/Navbar";
-import { assets } from "../assets/assets";
+import { assets, jobsData } from "../assets/assets";
 
 const ApplyJob = () => {
 
@@ -35,13 +35,21 @@ const ApplyJob = () => {
         <div>
             <div>
               <div>
-                <img src={assets.company_icon} alt=""/>
+                <img src={assets.companyId.image} alt=""/>
                 <div>
                   <h1>{JobData.title}</h1>
                   <div>
                     <span>
                       <img src={assets.suitcase_icon} alt=""/>
-                      {JobData}
+                      {JobData.companyId.name}
+                    </span>
+                    <span>
+                      <img src={assets.location_icon} alt=""/>
+                      {JobData.location}
+                    </span>
+                    <span>
+                      <img src={assets.person_icon} alt=""/>
+                      {JobData.level}
                     </span>
                   </div>
                 </div>
