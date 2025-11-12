@@ -2,7 +2,7 @@ import React from "react";
 
 const ViewApplications  = () => {
     return (
-        <div>Dashboard</div>
+        <div>view applications</div>
     )
 }
 

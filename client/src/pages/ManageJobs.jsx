@@ -2,7 +2,7 @@ import React from "react";
 
 const ManageJobs  = () => {
     return (
-        <div>Dashboard</div>
+        <div>Manage jobs</div>
     )
 }
 
