@@ -14,6 +14,8 @@ const [searchFilter, setSearchFilter] = useState({
 
   const [jobs, setJobs] = useState([]);
 
+  const [showRecruiterLogin, setShowRecruiterLogin] = useState(false)
+
   // Function to fetch university data
   const fetchJobs = async () => {
     setJobs(jobsData);
@@ -26,7 +28,8 @@ const [searchFilter, setSearchFilter] = useState({
   const value = {
     setSearchFilter, searchFilter,
     isSearched, setIsSearched,
-    jobs, setJobs
+    jobs, setJobs,
+    showRecruiterLogin, setShowRecruiterLogin,
   }; 
 
   return (
