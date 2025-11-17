@@ -12,16 +12,16 @@ router.post("/register", upload.single("image"), registerCompany)
 router.post("/login", loginCompany)
 
 // get company data
-router.post("company", protectCompany, getCompanyData)
+router.get("/company", protectCompany, getCompanyData)
 
 // post a job
 router.post("/post-job", protectCompany,postJob)
 
 // get applicants data of company
-router.post("/applicants", protectCompany, getCompanyJobApplicants)
+router.get("/applicants", protectCompany, getCompanyJobApplicants)
 
 // get company data
-router.post("/list-jobs", protectCompany, getCompanyPostedJobs)
+router.get("/list-jobs", protectCompany, getCompanyPostedJobs)
 
 // get company data
 router.post("/change-status", protectCompany, changeJobApplicationsStatus)

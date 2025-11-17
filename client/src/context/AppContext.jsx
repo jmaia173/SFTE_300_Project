@@ -3,7 +3,9 @@ import { jobsData } from "../assets/assets";
 
 export const AppContext = createContext();
 
-export const AppContextProvider = ({ children }) => {  
+export const AppContextProvider = ({children}) => {  
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URl 
 
 const [searchFilter, setSearchFilter] = useState({
     title: '',
@@ -15,6 +17,9 @@ const [searchFilter, setSearchFilter] = useState({
   const [jobs, setJobs] = useState([]);
 
   const [showRecruiterLogin, setShowRecruiterLogin] = useState(false)
+
+  const [companyToken, setCompanyToken] = useState(null)
+  const [companyData, setCompanyData] = useState(null)
 
   // Function to fetch university data
   const fetchJobs = async () => {
@@ -30,6 +35,9 @@ const [searchFilter, setSearchFilter] = useState({
     isSearched, setIsSearched,
     jobs, setJobs,
     showRecruiterLogin, setShowRecruiterLogin,
+    companyToken, setCompanyToken,
+    companyData, setCompanyData,
+    backendUrl
   }; 
 
   return (
