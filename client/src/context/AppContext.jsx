@@ -26,8 +26,8 @@ const [searchFilter, setSearchFilter] = useState({
   const [companyToken, setCompanyToken] = useState(null)
   const [companyData, setCompanyData] = useState(null)
 
-  const [useData, setUserData] = useState(null)
-  const [useApplications, setUserApplications] = useState([])
+  const [userData, setUserData] = useState(null)
+  const [userApplications, setUserApplications] = useState([])
 
   // Function to fetch jobs
   const fetchJobs = async () => {
@@ -73,11 +73,39 @@ const fetchUserdata = async () =>{
     
     const token = await getToken()
 
-      const {data} = await axios.get(backendUrl + "/api/users/user")
+      const {data} = await axios.get(backendUrl + "/api/users/user", 
+        {headers: {Authorization: `Bearer ${token}`}})
+
+        if (data.success) {
+          setUserData(data.user)
+        } else {
+          toast.error(data.message)
+        }
     
 
   } catch (error) {
+    toast.error(error.message)
+  }
+}
+
+// function to fetch users applied applications data
+const fetchUserApplications = async () => {
+  try {
     
+    const token = await getToken()
+
+    const {data} = await axios.get(backendUrl + "/api/users/applications",
+      {headers: {Authorization: `bearer ${token}`}}
+    )
+
+    if (data.success) {
+      setUserApplications(data.applications)
+    } else {
+      toast.error(data.message)
+    }
+
+  } catch (error) {
+      toast.error(error.message)
   }
 }
 
@@ -97,6 +125,13 @@ const fetchUserdata = async () =>{
     }
   }, [companyToken])
 
+  useEffect(() => {
+    if (user) {
+      fetchUserdata()
+      fetchUserApplications()
+    }
+  },[user])
+
   const value = {
     setSearchFilter, searchFilter,
     isSearched, setIsSearched,
@@ -104,7 +139,11 @@ const fetchUserdata = async () =>{
     showRecruiterLogin, setShowRecruiterLogin,
     companyToken, setCompanyToken,
     companyData, setCompanyData,
-    backendUrl
+    backendUrl,
+    userData, setUserData,
+    userApplications, setUserApplications,
+    fetchUserdata,
+    fetchUserApplications,
   }; 
 
   return (
