@@ -6,25 +6,30 @@ import {v2 as cloudinary} from "cloudinary"
 
 
 // get user data
-export const getUserData = async(req, res) => {
+export const getUserData = async (req, res) => {
+    const clerkId = req.auth.userId;
 
-    const userId = req.auth.userId
-    
     try {
-        
-        const user = await User.findById(userId)
+        let user = await User.findOne({ clerkId });
 
+        // Auto-create user if not found
         if (!user) {
-            return res.json({success: false, message: 'User not found'})
+            user = await User.create({
+                clerkId,
+                name: req.auth.session.user.firstName + " " + req.auth.session.user.lastName,
+                email: req.auth.session.user.emailAddresses[0].emailAddress,
+                image: req.auth.session.user.imageUrl
+            });
         }
 
-        res.json({success: true, user})
+        return res.json({ success: true, user });
 
     } catch (error) {
-        res.json({success: false, message: error.message})
+        return res.json({ success: false, message: error.message });
     }
+};
 
-}
+
 
 
 // apply for a job
