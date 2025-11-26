@@ -94,26 +94,28 @@ export const getUserJobApplications = async (req, res) => {
 
 // update user profile (resume)
 export const updateUserResume = async (req, res) => {
-
     try {
-        
-        const userId = req.auth.userId
+        const userId = req.auth.userId;
+        const resumeFile = req.file;
 
-        const resumeFile = req.File
+        // Find user by clerkId
+        const userData = await User.findOne({ clerkId: userId });
 
-        const userData = await User.findById(userId)
-
-        if (resumeFile) {
-            const resumeUpload = await cloudinary.uploader.upload(resumeFile.path)
-            userData.resume = resumeUpload.secure_url
+        if (!userData) {
+            return res.json({ success: false, message: "User not found" });
         }
 
-        await userData.save()
+        if (resumeFile) {
+            const resumeUpload = await cloudinary.uploader.upload(resumeFile.path);
+            userData.resume = resumeUpload.secure_url;
+        }
 
-        return res.json({success: true, message: "Resume Updated"})
+        await userData.save();
+
+        return res.json({ success: true, message: "Resume Updated" });
 
     } catch (error) {
-        res.json({success: false, message: error.message})
+        res.json({ success: false, message: error.message });
     }
+};
 
-}
