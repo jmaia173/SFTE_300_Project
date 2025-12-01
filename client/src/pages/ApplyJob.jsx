@@ -28,7 +28,8 @@ const ApplyJob = () => {
  
     try {
       
-      const {data} = axios.get(backendUrl+ `/api/jobs/${id}`)
+      const { data } = await axios.get(backendUrl + `/api/jobs/${id}`);
+
 
     if (data.success) {
       setJobData(data.job)
@@ -84,7 +85,7 @@ const applyHandler = async () => {
   }, [id])
 
   useEffect(() => {
-    if(userApplications.lenght > 0 && JobData) {
+    if(userApplications.length > 0 && JobData) {
       checkAlreadyApplied()
     }
   },[JobData, userApplications, id])
@@ -122,7 +123,7 @@ const applyHandler = async () => {
 
             <div className="flex flex-col justify-center text-end text-sm max-md:mx-auto max-md:text-center">
               <button onClick={applyHandler} className="bg-blue-600 p-2.5 px-10 text-white rounded">{isAlreadyApplied? "Already Applied": "Apply Now"}</button>
-              <p className="mt-1 text-gray-600">Posted {moment(JobData.data).fromNow()}</p>
+              <p className="mt-1 text-gray-600">Posted {moment(JobData.date).fromNow()}</p>
             </div>
 
           </div>
