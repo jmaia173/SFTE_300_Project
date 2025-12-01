@@ -3,6 +3,7 @@ import { assets, viewApplicationsPageData } from "../assets/assets";
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import Loading from "../components/Loading";
 
@@ -57,7 +58,7 @@ const ViewApplications = () => {
         }
     }, [companyToken])
 
-    return applicants ? applicants.lenght === 0 ? (
+    return applicants ? applicants.length === 0 ? (
         <div className="flex items-center justify-center h-[70vh]">
             <p className="text-xl sm:text-2xl">No Applications Avaiable</p>
         </div>
