@@ -10,6 +10,7 @@ import JobCard from "../components/JobCard";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
+import { toast } from "react-toastify";
 
 const ApplyJob = () => {
 
