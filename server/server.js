@@ -37,8 +37,6 @@ app.use(
 
 app.use(express.json());
 
-// VERY IMPORTANT for preflight requests
-app.options("*", cors());
 
 // Clerk MUST come AFTER CORS + OPTIONS
 app.use(clerkMiddleware());
