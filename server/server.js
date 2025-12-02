@@ -23,9 +23,27 @@ await connectCloudinary()
 
 //middleware
 
-app.use(cors())
-app.use(express.json())
-app.use(clerkMiddleware())
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://sfte-300-project-frontend.onrender.com"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
+app.use(express.json());
+
+// VERY IMPORTANT for preflight requests
+app.options("*", cors());
+
+// Clerk MUST come AFTER CORS + OPTIONS
+app.use(clerkMiddleware());
+
+
 
 // Routes
 

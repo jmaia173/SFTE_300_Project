@@ -2,7 +2,6 @@ import Job from "../models/Job.js"
 import JobApplication from "../models/JobApplications.js"
 import User from "../models/User.js"
 import {v2 as cloudinary} from "cloudinary"
-import { users } from '@clerk/clerk-sdk-node';
 
 
 
@@ -11,17 +10,15 @@ export const getUserData = async (req, res) => {
     const clerkId = req.auth.userId;
 
     try {
-        // Fetch full user from Clerk
-        const clerkUser = await users.getUser(clerkId);
-
         let user = await User.findOne({ clerkId });
 
+        // Auto-create user if not found
         if (!user) {
             user = await User.create({
                 clerkId,
-                name: `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`,
-                email: clerkUser.emailAddresses[0].emailAddress,
-                image: clerkUser.imageUrl
+                name: req.auth.session.user.firstName + " " + req.auth.session.user.lastName,
+                email: req.auth.session.user.emailAddresses[0].emailAddress,
+                image: req.auth.session.user.imageUrl
             });
         }
 
@@ -31,7 +28,6 @@ export const getUserData = async (req, res) => {
         return res.json({ success: false, message: error.message });
     }
 };
-
 
 
 
