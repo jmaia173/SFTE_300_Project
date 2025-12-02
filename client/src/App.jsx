@@ -15,6 +15,8 @@ import "react-toastify/dist/ReactToastify.css"
 
 const App = () => {
 
+  console.log("VITE_BACKEND_URL =", import.meta.env.VITE_BACKEND_URL);
+
   const { showRecruiterLogin, companyToken } = useContext(AppContext)
 
   return (
