@@ -42,35 +42,33 @@ const ApplyJob = () => {
     }
      }
 const applyHandler = async () => {
-      try {
-        
-        if (!userData) {
-          return toast.error("Login to apply for jobs")
-        }
-
-        if (!userData.resume) {
-          navigate("/applications")
-          return toast.error("Upload resume to apply")
-        }
-
-        const token = await getToken()
-
-        const {data} = await axios.post(backendUrl + '/api/users/apply',
-          {jobId: JobData._id},
-          {headers: {Authorization: `Bearer ${token}`}}
-        )
-
-        if (data.success) {
-          toast.success(data.message)
-          fetchUserApplications()
-        } else {
-          toast.error(data.message)
-        }
-
-      } catch (error) {
-        toast.error(error.message)
-      }
+  try {
+    // Guard against userData being null
+    if (!userData || !userData.resume) {
+      navigate("/applications")
+      return toast.error(!userData ? "Login to apply for jobs" : "Upload resume to apply");
     }
+
+    const token = await getToken();
+
+    const { data } = await axios.post(
+      backendUrl + '/api/users/apply',
+      { jobId: JobData._id },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    if (data.success) {
+      toast.success(data.message);
+      fetchUserApplications();
+    } else {
+      toast.error(data.message);
+    }
+
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
 
     const checkAlreadyApplied = () => {
       const hasApplied = userApplications.some(item => item.jobId._id === JobData._id)
