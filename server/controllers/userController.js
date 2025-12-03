@@ -5,23 +5,32 @@ import { v2 as cloudinary } from "cloudinary"
 
 // Get User Data
 export const getUserData = async (req, res) => {
-
     const userId = req.auth.userId
-
+    
     try {
-
-        const user = await User.findOne({ clerkId: userId })
-
+        let user = await User.findOne({ clerkId: userId })
+        
+        // If user doesn't exist, create them with Clerk data
         if (!user) {
-            return res.json({ success: false, message: 'User Not Found' })
+            // Get user info from Clerk token
+            const clerkUser = req.auth.sessionClaims
+            
+            user = await User.create({
+                clerkId: userId,
+                name: clerkUser.firstName + (clerkUser.lastName ? ' ' + clerkUser.lastName : ''),
+                email: clerkUser.email || clerkUser.primaryEmail,
+                image: clerkUser.imageUrl || '',
+                resume: ''
+            })
+            
+            console.log('New user created:', user)
         }
-
+        
         res.json({ success: true, user })
-
     } catch (error) {
+        console.error('Error in getUserData:', error)
         res.json({ success: false, message: error.message })
     }
-
 }
 
 
