@@ -10,7 +10,7 @@ export const getUserData = async (req, res) => {
 
     try {
 
-        const user = await User.findById(userId)
+        const user = await User.findOne({ clerkId: userId })
 
         if (!user) {
             return res.json({ success: false, message: 'User Not Found' })
@@ -93,7 +93,7 @@ export const updateUserResume = async (req, res) => {
 
         const resumeFile = req.file
 
-        const userData = await User.findById(userId)
+        const userData = await User.findOne({ clerkId: userId })
 
         if (resumeFile) {
             const resumeUpload = await cloudinary.uploader.upload(resumeFile.path)
