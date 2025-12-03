@@ -15,7 +15,7 @@ const JobListing = () => {
 
     const [selectedLocations, setSelectedLocations] = useState([])
 
-    const [filteredJobs, setFilteredJobs] = useState(jobs)
+    const [filteredJobs, setFilteredJobs] = useState([])
 
     const handleCategoryChange = (category) => {
         setSelectedCategories(
@@ -38,7 +38,7 @@ const JobListing = () => {
 
         const matchesSearchLocation = job => searchFilter.location === "" || job.location.toLowerCase().includes(searchFilter.location.toLowerCase())
 
-        const newfilteredJobs = jobs.slice().reverse().filter(
+        const newfilteredJobs = (jobs || []).slice().reverse().filter(
             job => matchesCategory(job) && matchesLocation(job) && matchesTitle(job) && matchesSearchLocation(job)
         )
 
