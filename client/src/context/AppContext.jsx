@@ -10,6 +10,7 @@ export const AppContextProvider = ({ children }) => {
   
   const [userData, setUserData] = useState(null);
   const [userApplications, setUserApplications] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Always use environment variable for backend URL
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -40,6 +41,8 @@ export const AppContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Error fetching user data:', error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -86,6 +89,7 @@ export const AppContextProvider = ({ children }) => {
     backendUrl,
     userData,
     userApplications,
+    isLoading,
     fetchUserData,
     fetchUserApplications,
     setUserData,

@@ -17,7 +17,7 @@ const Applications = () => {
   const [isEdit, setIsEdit] = useState(false)
   const [resume, setResume] = useState(null)
 
-  const { backendUrl, userData, userApplications, fetchUserData, fetchUserApplications } = useContext(AppContext)
+  const { backendUrl, userData, userApplications, fetchUserData, fetchUserApplications, isLoading } = useContext(AppContext)
 
   const updateResume = async () => {
 
@@ -54,7 +54,11 @@ const Applications = () => {
     }
   }, [user])
 
-  return userData ? (
+  if (isLoading || !userData) {
+    return <Loading />
+  }
+
+  return (
     <>
       <Navbar />
       <div className='container px-4 min-h-[65vh] 2xl:px-20 mx-auto my-10'>
@@ -121,7 +125,7 @@ const Applications = () => {
       </div>
       <Footer />
     </>
-  ) : <Loading />
+  )
 }
 
 export default Applications
